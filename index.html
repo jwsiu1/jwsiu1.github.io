@@ -227,5 +227,34 @@
 	<!-- Carousel Scripts -->
 	<script src="assets/js/carousel-modal.js"></script>
 	<script src="assets/js/timeline.js"></script>
+	<!-- Responsive CSS -->
+	<style>
+	@media (max-width: 600px) {
+	  .timeline {
+	    padding-left: 18px;
+	    max-width: 98vw;
+	  }
+	  .timeline-event:before {
+	    left: -26px;
+	    width: 14px;
+	    height: 14px;
+	  }
+	  .timeline-content {
+	    padding: 0.8em 0.7em;
+	    font-size: 0.98em;
+	  }
+	  .gallery-modal-carousel-img,
+	  .gallery-modal-img {
+	    max-width: 90vw;
+	    max-height: 60vw;
+	    width: 100%;
+	    height: auto;
+	    border-radius: 12px;
+	    object-fit: cover;
+	    display: block;
+	    margin: 0 auto;
+	  }
+	}
+	</style>
 </body>
 </html>
