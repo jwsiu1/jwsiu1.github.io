@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Joey</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- <style>
+		/* Logo styles */
+		.logo img {
+			width: 114px;
+			height: auto;
+			border-radius: 50%;
+		}
+		@media (max-width: 600px) {
+			.logo img {
+				width: 68px;
+			}
+		}
+		/* Carousel styles */
+		.carousel {
+			position: relative;
+			width: 100%;
+			max-width: 500px;
+			margin: 0 auto 1em auto;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.carousel-images {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.carousel-images img {
+			display: none;
+			width: 125%;
+			border-radius: 10px;
+			margin: 0 auto;
+		}
+		.carousel-images img.active {
+			display: block;
+		}
+		.carousel-arrow {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background: #222;
+			color: #fff;
+			border: none;
+			font-size: 1.2em;
+			padding: 0 0.3em;
+			cursor: pointer;
+			opacity: 0.7;
+			z-index: 2;
+		}
+		.carousel-arrow.left {
+			left: -60px;
+		}
+		.carousel-arrow.right {
+			right: -60px;
+		}
+		@media (max-width: 600px) {
+			.carousel {
+				max-width: 100%;
+			}
+			.carousel-arrow.left {
+				left: -20px;
+			}
+			.carousel-arrow.right {
+				right: -20px;
+			}
+		}
+	</style> -->
+</head>
+<body class="is-preload">
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Header -->
+		<header id="header">
+			<div class="logo">
+				<img src="images/car.png" alt="Your Logo">
+			</div>
+			<div class="content">
+				<div class="inner">
+					<h1>Joey Siu</h1>
+					<p>Data Analyst</p>
+				</div>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="#intro">Intro</a></li>
+					<li><a href="#cars">Cars</a></li>
+					<li><a href="#memories">Memories</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+		</header>
+		<!-- Main -->
+		<div id="main">
+			<!-- Intro -->
+			<article id="intro">
+				<h2 class="major">Intro</h2>
+				<div style="display: flex; justify-content: center; margin-bottom: 1.5em;">
+					<img src="./images/joey_graduation.jpg" alt="Joey Graduation" style="max-width: 600px; width: 100%; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); object-fit: cover;">
+				</div>
+				<p>Hi! My name is Joey and I am a Data Analyst at the Los Angeles Department of Water and Power (LADWP). I graduated from the University of California, Irvine with a Bachelor's degree in Computer Science.</p>
+				<p>Some of my hobbies include sports, cars, finance, and traveling. One of my immediate goals is to adventure the world and explore new places.</p>
+			</article>
+			<!-- Cars -->
+			<article id="cars">
+				<h2 class="major">Cars</h2>
+				<div class="carousel">
+					<button class="carousel-arrow left">&#8592;</button>
+					<div class="carousel-images">
+						<img src="images/gtr.jpg" alt="Nissan GTR Nismo Edition" class="active" />
+						<img src="images/gtr2.jpg" alt="Nissan GTR Nismo Edition Rear View" />
+						<img src="images/gtr3.jpg" alt="" />
+					</div>
+					<button class="carousel-arrow right">&#8594;</button>
+				</div>
+				<p><b>Nissan GTR Nismo Edition</b></p>
+				<p>This is one of my favorite cars. It was my dream car as a little kid and I still think it is a beautiful car.</p>
+				<div class="carousel" style="margin-top:2em;">
+					<button class="carousel-arrow left second">&#8592;</button>
+					<div class="carousel-images second">
+						<img src="images/svj.jpg" alt="Lamborghini Aventador SVJ" class="active" />
+						<img src="images/svj2.jpg" alt="Lamborghini Aventador SVJ Rear View" />
+						<img src="images/svj3.jpg" alt="Lamborghini Aventador SVJ Interior" />
+					</div>
+					<button class="carousel-arrow right second">&#8594;</button>
+				</div>
+				<p><b>Lamborghini Aventador SVJ</b></p>
+				<p>The SVJ is my dream car. In this yellow paint color, it is one of the most aggressive looking cars ever made. Also, with a Gintani exhaust, this V12 beast will shoot flames.</p>
+			</article>
+			<!-- Memories -->
+			<article id="memories">
+				<h2 class="major">Memories</h2>
+				<p>Relive my experiences!</p>
+				<div class="gallery">
+					<div class="gallery-item">
+						<img src="images/taiwan.jpg" data-description="July 21, 2023 - Incredible view from Taiwan's Jiufen District!" />
+					</div>
+					<div class="gallery-item">
+						<img src="images/joey_graduation_over_cs_sign.jpg" alt="Memory 2" data-description="June 4, 2023 - Graduation photo at UCI!" />
+					</div>
+				</div>
+				<!-- Gallery Modal Overlay -->
+				<div class="gallery-modal-overlay" id="gallery-modal-overlay" style="display:none;">
+					<div class="gallery-modal">
+						<button class="gallery-modal-close" aria-label="Close">&times;</button>
+						<img class="gallery-modal-img" src="" alt="">
+						<div class="gallery-modal-desc"></div>
+					</div>
+				</div>
+			</article>
+			<!-- Contact -->
+			<article id="contact">
+				<h2 class="major">Contact</h2>
+				<ul class="icons">
+					<li><a href="https://www.linkedin.com/in/joey8" class="icon brands fa-linkedin" target="_blank" rel="noopener"><span class="label">LinkedIn</span></a></li>
+				</ul>
+				<form method="POST" action="https://formspree.io/f/mblyadak">
+					<div class="fields">
+						<div class="field half">
+							<label for="name">Name *</label>
+							<input type="text" name="name" id="name" required />
+						</div>
+						<div class="field half">
+							<label for="email">Email *</label>
+							<input type="email" name="email" id="email" required />
+						</div>
+						<div class="field">
+							<label for="message">Message *</label>
+							<textarea name="message" id="message" rows="3" required></textarea>
+						</div>
+					</div>
+					<ul class="actions">
+						<li><input type="submit" value="Send Message" class="primary" /></li>
+					</ul>
+				</form>
+				<p style="font-size:0.9em;color:#888;">* Required fields</p>
+			</article>
+		</div>
+		<!-- Footer -->
+		<footer id="footer">
+			<p class="copyright">&copy; Joey Siu</p>
+		</footer>
+	</div>
+	<!-- BG -->
+	<div id="bg"></div>
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<!-- Carousel Scripts -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// First carousel
+			const images = document.querySelectorAll('.carousel-images:not(.second) img');
+			const left = document.querySelector('.carousel-arrow.left:not(.second)');
+			const right = document.querySelector('.carousel-arrow.right:not(.second)');
+			let current = 0;
+			function showImage(idx) {
+				images.forEach((img, i) => img.classList.toggle('active', i === idx));
+			}
+			if (left && right && images.length) {
+				left.addEventListener('click', function() {
+					current = (current - 1 + images.length) % images.length;
+					showImage(current);
+				});
+				right.addEventListener('click', function() {
+					current = (current + 1) % images.length;
+					showImage(current);
+				});
+				showImage(current);
+			}
+			// Second carousel
+			const images2 = document.querySelectorAll('.carousel-images.second img');
+			const left2 = document.querySelector('.carousel-arrow.left.second');
+			const right2 = document.querySelector('.carousel-arrow.right.second');
+			let current2 = 0;
+			function showImage2(idx) {
+				images2.forEach((img, i) => img.classList.toggle('active', i === idx));
+			}
+			if (left2 && right2 && images2.length) {
+				left2.addEventListener('click', function() {
+					current2 = (current2 - 1 + images2.length) % images2.length;
+					showImage2(current2);
+				});
+				right2.addEventListener('click', function() {
+					current2 = (current2 + 1) % images2.length;
+					showImage2(current2);
+				});
+				showImage2(current2);
+			}
+			// Gallery modal
+			const gallery = document.querySelector('#memories .gallery');
+			if (gallery) {
+				const galleryImages = gallery.querySelectorAll('.gallery-item img');
+				const modalOverlay = document.getElementById('gallery-modal-overlay');
+				const modalImg = modalOverlay.querySelector('.gallery-modal-img');
+				const modalDesc = modalOverlay.querySelector('.gallery-modal-desc');
+				const modalClose = modalOverlay.querySelector('.gallery-modal-close');
+				galleryImages.forEach(img => {
+					img.addEventListener('click', function() {
+						modalOverlay.style.display = 'flex';
+						modalImg.src = this.src;
+						modalImg.alt = this.alt;
+						modalDesc.textContent = this.getAttribute('data-description');
+					});
+				});
+				modalClose.addEventListener('click', function() {
+					modalOverlay.style.display = 'none';
+					modalImg.src = '';
+					modalDesc.textContent = '';
+				});
+				modalOverlay.addEventListener('click', function(e) {
+					if (e.target === modalOverlay) {
+						modalOverlay.style.display = 'none';
+						modalImg.src = '';
+						modalDesc.textContent = '';
+					}
+				});
+			}
+		});
+	</script>
+</body>
+</html>
