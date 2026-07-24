@@ -1,231 +1,382 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Joey Siu's Portfolio</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joey Weng-Dat Siu | Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
+        :root {
+            --bg-color: #08080a;
+            --surface-color: #121215;
+            --text-main: #f3f3f3;
+            --text-muted: #9ba1a6;
+            --accent-blue: #1a8cff;
+            --glow-blue: 0 0 20px rgba(26, 140, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Glow */
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(26,140,255,0.08) 0%, rgba(8,8,10,0) 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            pointer-events: none;
+            animation: pulse-glow 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 5%;
+            background: rgba(8, 8, 10, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        section {
+            padding: 120px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* About / Hero Section */
+        #about {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero-intro {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 7vw, 70px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: clamp(30px, 5vw, 50px);
+            color: var(--text-muted);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        p.summary {
+            max-width: 600px;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            color: var(--bg-color);
+            background-color: var(--accent-blue);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--glow-blue);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(26, 140, 255, 0.6);
+            background-color: #4da6ff;
+        }
+
+        /* Initial Load Animations */
+        @keyframes load-in-up {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content > * {
+            opacity: 0;
+            animation: load-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-content .hero-intro { animation-delay: 0.1s; }
+        .hero-content h1 { animation-delay: 0.3s; }
+        .hero-content h2 { animation-delay: 0.5s; }
+        .hero-content p { animation-delay: 0.7s; }
+        .hero-content a { animation-delay: 0.9s; }
+
+        /* Section Headers */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .section-title span {
+            color: var(--accent-blue);
+        }
+
+        /* Experience Grid */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Card Hover Effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(26, 140, 255, 0.05), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            border-color: rgba(26, 140, 255, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card .company {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
+            background: var(--surface-color);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            background: rgba(26, 140, 255, 0.08);
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
 </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Header -->
-		<header id="header">
-			<div class="logo">
-				<img src="images/car.png" alt="Your Logo">
-			</div>
-			<div class="content">
-				<div class="inner">
-					<h1>Joey Siu</h1>
-					<p>Data Analyst</p>
-				</div>
-			</div>
-			<nav>
-				<ul>
-					<li><a href="#intro">Intro</a></li>
-					<!-- <li><a href="#cars">Cars</a></li> -->
-					<li><a href="#career">Career</a></li>
-					<li><a href="#memories">Memories</a></li>
-					<li><a href="#contact">Contact</a></li>
-				</ul>
-			</nav>
-		</header>
-		<!-- Main -->
-		<div id="main">
-			<!-- Intro -->
-			<article id="intro">
-				<h2 class="major">Intro</h2>
-				<div style="display: flex; justify-content: center; margin-bottom: 1.5em;">
-					<img src="images/joey_graduation.jpg" alt="Joey Graduation" style="max-width: 600px; width: 100%; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); object-fit: cover;">
-				</div>
-				<p>Hi! My name is Joey and I am a Data Analyst at the Los Angeles Department of Water and Power (LADWP). I graduated from the University of California, Irvine with a Bachelor's degree in Computer Science.</p>
-				<p>Some of my hobbies include sports, cars, finance, and traveling. One of my immediate goals is to adventure the world and explore new places.</p>
-			</article>
-			<!-- Cars -->
-			<article id="cars">
-				<h2 class="major">Cars</h2>
-				<div class="carousel">
-					<button class="carousel-arrow left" style="background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1em; color: #222; cursor: pointer; transition: background 0.2s;">
-						<i class="fa-solid fa-chevron-left" style="color: #222; font-size: 1em;"></i>
-					</button>
-					<div class="carousel-center">
-						<div class="carousel-images">
-							<img src="images/gtr.jpg" alt="Nissan GTR Nismo Edition Front View" class="active"/>
-							<img src="images/gtr2.jpg" alt="Nissan GTR Nismo Edition Rear View" />
-							<img src="images/gtr3.jpg" alt="Nissan GTR Nismo Edition Front and Rear View" />
-						</div>
-						<div class="carousel-indicators"></div>
-					</div>
-					<button class="carousel-arrow right" style="background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1em; color: #222; cursor: pointer; transition: background 0.2s;">
-						<i class="fa-solid fa-chevron-right" style="color: #222; font-size: 1em;"></i>
-					</button>
-				</div>
-				<p><b>Nissan GTR Nismo Edition</b></p>
-				<p>This is one of my favorite cars. It was my dream car as a little kid and I still think it is a beautiful car.</p>
-				<div class="carousel" style="margin-top:2em;">
-					<button class="carousel-arrow left second" style="background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1em; color: #222; cursor: pointer; transition: background 0.2s;">
-						<i class="fa-solid fa-chevron-left" style="color: #222; font-size: 1em;"></i>
-					</button>
-					<div class="carousel-center second">
-						<div class="carousel-images second">
-							<img src="images/svj.jpg" alt="Lamborghini Aventador SVJ Front View" class="active" />
-							<img src="images/svj2.jpg" alt="Lamborghini Aventador SVJ Side View" />
-							<img src="images/svj3.jpg" alt="Lamborghini Aventador SVJ Rear View" />
-						</div>
-						<div class="carousel-indicators second"></div>
-					</div>
-					<button class="carousel-arrow right second" style="background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1em; color: #222; cursor: pointer; transition: background 0.2s;">
-						<i class="fa-solid fa-chevron-right" style="color: #222; font-size: 1em;"></i>
-					</button>
-				</div>
-				<p><b>Lamborghini Aventador SVJ</b></p>
-				<p>The SVJ is my dream car. In this yellow paint color, it is one of the most aggressive looking cars ever made. Also, with a Gintani exhaust, this V12 beast will shoot flames.</p>
-			</article>
-			<!-- Career Timeline -->
-			<article id="career">
-				<h2 class="major">Career Timeline</h2>
-				<div class="timeline">
-					<div class="timeline-event" data-delay="0">
-						<div class="timeline-content">
-							<h3>June 2025 - Present</h3>
-							<!-- <h5>Los Angeles Department of Water and Power (LADWP)</h5> -->
-							<h5>Data Analyst, LADWP</h5>
-							<!-- <p>Analyzing and visualizing data to support decision-making at the Los Angeles Department of Water and Power.</p> -->
-						</div>
-					</div>
-					<div class="timeline-event" data-delay="1">
-						<div class="timeline-content">
-							<h3>March 2024 - June 2025</h3>
-							<h5>Systems Analyst, LAPD</h5>
-							<!-- <p>Worked on data cleaning, reporting, and dashboard creation for various clients in the tech industry.</p> -->
-						</div>
-					</div>
-					<div class="timeline-event" data-delay="2">
-						<div class="timeline-content">
-							<h3>October 2023 - March 2024</h3>
-							<h5>Project Assistant, Bureau of Sanitation</h5>
-							<!-- <p>Assisted in research projects and built machine learning models as part of the university's data science team.</p> -->
-						</div>
-					</div>
-					<div class="timeline-event" data-delay="3">
-						<div class="timeline-content">
-							<h3>August 2023 - October 2023</h3>
-							<h5>Relief Retirement Worker, LAFPP</h5>
-							<!-- <p>Provided technical support and troubleshooting for students and staff at UCI.</p> -->
-						</div>
-					</div>
-					<div class="timeline-event" data-delay="4">
-						<div class="timeline-content">
-							<h3>June 2023</h3>
-							<h5>Graduated from UCI with a B.S. in Computer Science</h5>
-							<!-- <p>Provided technical support and troubleshooting for students and staff at UCI.</p> -->
-						</div>
-					</div>
-				</div>
-			</article>
-			<!-- Memories -->
-			<article id="memories">
-				<h2 class="major">Memories</h2>
-				<p>Some of my favorite moments and experiences!</p>
-				<div class="gallery">
+<body>
 
-					<div class="gallery-item gallery-multi" data-images='["images/bufadora.jpg","images/cruise_mexico.jpg", "images/blowhole.jpg"]'
-						data-descriptions='["November 17, 2024 - Fascinating view in La Bufadora, Mexico!","A look at our ship when we docked in Mexico!", "Famouse blowhole in La Bufadora, Mexico!"]'>
-						<img src="images/bufadora.jpg" alt="Ensenada Cruise" data-description="Ensenada Cruise" />
-						<div class="gallery-hover-desc">Ensenada Cruise</div>
-					</div>
-					<div class="gallery-item">
-						<img src="images/yosemite.jpg" data-description="August 10, 2024 - Incredible views of Yosemite! You can see El Capitan and Half Dome from this view point!" />
-						<div class="gallery-hover-desc">Yosemite, CA</div>
-					</div>
-					<div class="gallery-item">
-						<img src="images/s2000_canyon.jpg" data-description="March 22, 2024 - Canyon run with Honda S2000 twins!" />
-						<div class="gallery-hover-desc">Azusa Canyons</div>
-					</div>
-					<div class="gallery-item">
-						<img src="images/porsche.jpg" data-description="August 19, 2023 - Fun day at the Porsche Experience!" />
-						<div class="gallery-hover-desc">Porsche Experience</div>
-					</div>
-					<div class="gallery-item">
-						<img src="images/hk_skyline.jpg" data-description="July 27, 2023 - Beautiful Hong Kong skyline view at night!" />
-						<div class="gallery-hover-desc">Hong Kong</div>
-					</div>
-					<div class="gallery-item gallery-multi" data-images='["images/taiwan_parents.jpg","images/taiwan.jpg","images/taiwan_fruits.jpg","images/taiwan_wagyu.jpg"]'
-						data-descriptions='["July 21, 2023 - Flying a lantern with my parents in Taiwan!","Incredible view from Taiwan Jiufen District!","Fresh and delicious fruits from Taiwan!","Amazing wagyu dinner in Taiwan!"]'>
-						<img src="images/taiwan_parents.jpg" alt="Yosemite Gallery" data-description="Taiwan Trip - Click to view more photos!" />
-						<div class="gallery-hover-desc">Taiwan</div>
-					</div>
-					<div class="gallery-item">
-						<img src="images/joey_graduation_over_cs_sign.jpg" alt="Memory 2" data-description="June 4, 2023 - Graduation photo at UCI!" />
-						<div class="gallery-hover-desc">UCI Graduation</div>
-					</div>
-				</div>
-				<!-- Gallery Modal Overlay -->
-				<div class="gallery-modal-overlay" id="gallery-modal-overlay" style="display:none;">
-					<div class="gallery-modal">
-						<button class="gallery-modal-close" aria-label="Close">&times;</button>
-						<div class="gallery-modal-carousel" style="display:none; flex-direction:column; align-items:center;">
-							<button class="gallery-modal-arrow left" style="background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1em; color: #222; cursor: pointer; transition: background 0.2s; position:absolute; left:16px; top:50%; transform:translateY(-50%); z-index:2;">
-								<i class="fa-solid fa-chevron-left" style="color: #222; font-size: 1em;"></i>
-							</button>
-							<img class="gallery-modal-carousel-img" src="" alt="" />
-							<button class="gallery-modal-arrow right" style="background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1em; color: #222; cursor: pointer; transition: background 0.2s; position:absolute; right:16px; top:50%; transform:translateY(-50%); z-index:2;">
-								<i class="fa-solid fa-chevron-right" style="color: #222; font-size: 1em;"></i>
-							</button>
-							<div class="gallery-modal-carousel-indicators" style="display:flex;justify-content:center;gap:8px;margin-top:10px;"></div>
-							<div class="gallery-modal-carousel-desc" style="margin-top:8px;color:#fff !important;font-size:0.95em;"></div>
-						</div>
-						<img class="gallery-modal-img" src="" alt="" />
-						<div class="gallery-modal-desc"></div>
-					</div>
-				</div>
-			</article>
-			<!-- Contact -->
-			<article id="contact">
-				<h2 class="major">Contact</h2>
-				<ul class="icons">
-					<li><a href="https://www.linkedin.com/in/joey8" class="icon brands fa-linkedin" target="_blank" rel="noopener"><span class="label">LinkedIn</span></a></li>
-				</ul>
-				<form method="POST" action="https://formspree.io/f/mblyadak">
-					<div class="fields">
-						<div class="field half">
-							<label for="name">Name *</label>
-							<input type="text" name="name" id="name" required />
-						</div>
-						<div class="field half">
-							<label for="email">Email *</label>
-							<input type="email" name="email" id="email" required />
-						</div>
-						<div class="field">
-							<label for="message">Message *</label>
-							<textarea name="message" id="message" rows="3" required></textarea>
-						</div>
-					</div>
-					<ul class="actions">
-						<li><input type="submit" value="Send Message" class="primary" /></li>
-					</ul>
-				</form>
-				<p style="font-size:0.9em;color:#888;">* Required fields</p>
-			</article>
-		</div>
-		<!-- Footer -->
-		<footer id="footer">
-			<p class="copyright">&copy; Joey Siu</p>
-		</footer>
-	</div>
-	<!-- BG -->
-	<div id="bg"></div>
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-	<!-- Carousel Scripts -->
-	<script src="assets/js/carousel-modal.js"></script>
-	<script src="assets/js/timeline.js"></script>
+    <div class="bg-glow"></div>
+
+    <nav>
+        <div class="logo" onclick="window.scrollTo(0,0)">Joey <span>Siu</span></div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#skills">Skills</a>
+        </div>
+    </nav>
+
+    <!-- Changed id to "about" to fix the navigation bug -->
+    <section id="about">
+        <div class="hero-content">
+            <div class="hero-intro">Hello, my name is</div>
+            <h1>Joey Weng-Dat Siu.</h1>
+            <h2>I transform data into strategy.</h2>
+            <p class="summary">
+                Data Analyst with a Bachelor of Science in Computer Science from UC Irvine. Specializing in database management, analytics, and building scalable systems that drive actionable insights.
+            </p>
+            <a href="#experience" class="btn">View My Work</a>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title reveal">Professional <span>Experience</span></h2>
+        <div class="timeline">
+            <div class="card reveal" style="transition-delay: 0.1s;">
+                <h3>Data Analyst</h3>
+                <div class="company">Los Angeles Department of Water and Power (LADWP)</div>
+                <div class="date">June 2025 - Present</div>
+                <p>Leveraging advanced data analysis techniques and database management tools to optimize operations and support strategic decision-making within the department.</p>
+            </div>
+
+            <div class="card reveal" style="transition-delay: 0.3s;">
+                <h3>Systems Analyst</h3>
+                <div class="company">Los Angeles Police Department (LAPD)</div>
+                <div class="date">March 2024 - June 2025</div>
+                <p>Managed system architectures, analyzed operational data flows, and ensured the reliability of critical information systems.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title reveal">Technical <span>Skills</span></h2>
+        <div class="skills-grid">
+            <div class="skill-tag reveal" style="transition-delay: 0.1s;">SQL (T-SQL / PL/SQL)</div>
+            <div class="skill-tag reveal" style="transition-delay: 0.15s;">Python</div>
+            <div class="skill-tag reveal" style="transition-delay: 0.2s;">Power BI</div>
+            <div class="skill-tag reveal" style="transition-delay: 0.25s;">Oracle SQL Developer</div>
+            <div class="skill-tag reveal" style="transition-delay: 0.3s;">Oracle Analytics Server</div>
+            <div class="skill-tag reveal" style="transition-delay: 0.35s;">SSRS</div>
+            <div class="skill-tag reveal" style="transition-delay: 0.4s;">Advanced Excel</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Designed and built by Joey Weng-Dat Siu © 2026</p>
+    </footer>
+
+    <!-- Intersection Observer Script for Scroll Animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Stop observing once it has animated in
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+        });
+    </script>
 </body>
 </html>
