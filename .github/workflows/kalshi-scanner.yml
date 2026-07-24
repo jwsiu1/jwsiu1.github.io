@@ -1,21 +1,23 @@
-name: Kalshi Volatility Scanner
+name: Kalshi Volume Tracker Pipeline
 
 on:
   schedule:
-    # Runs at minute 0 past every hour
-    - cron: '0 * * * *' 
-  workflow_dispatch: # Creates a button in GitHub so you can run it manually
+    - cron: '0 * * * *' # Runs every hour
+  workflow_dispatch:
+
+permissions:
+  contents: write # Allows the bot to push the generated JSON back to GitHub
 
 jobs:
-  run-scanner:
+  run-and-publish:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -24,6 +26,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pandas
 
-      - name: Run Scanner Script
-        run: python scanner.py 
-        # Make sure 'scanner.py' matches the exact name of your Python file
+      - name: Run Data Pipeline
+        run: python scanner.py
+
+      - name: Commit and Push Updated Data
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add kalshi_top10.json
+          git commit -m "Auto-update Kalshi top 10 market data" || exit 0
+          git push
