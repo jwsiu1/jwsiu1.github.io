@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joey Siu | Portfolio</title>
+    <title>Joey Weng-Dat Siu | Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
@@ -31,6 +31,16 @@
             overflow-x: hidden;
         }
 
+        /* Particles Background Container */
+        #particles-js {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Keeps it behind your content */
+        }
+
         /* Ambient Background Glow */
         .bg-glow {
             position: fixed;
@@ -38,10 +48,10 @@
             left: 50%;
             width: 50vw;
             height: 50vw;
-            background: radial-gradient(circle, rgba(26,140,255,0.08) 0%, rgba(8,8,10,0) 70%);
+            background: radial-gradient(circle, rgba(26,140,255,0.05) 0%, rgba(8,8,10,0) 70%);
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
             animation: pulse-glow 8s infinite alternate ease-in-out;
         }
@@ -203,9 +213,11 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            /* Added backdrop-filter so the cards look like frosted glass over the particles */
+            backdrop-filter: blur(5px); 
+            background: rgba(18, 18, 21, 0.85); 
         }
 
-        /* Card Hover Effect */
         .card::before {
             content: '';
             position: absolute;
@@ -252,7 +264,7 @@
         }
 
         .skill-tag {
-            background: var(--surface-color);
+            background: rgba(18, 18, 21, 0.85);
             color: var(--text-main);
             padding: 10px 20px;
             border-radius: 6px;
@@ -261,6 +273,7 @@
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: default;
+            backdrop-filter: blur(5px);
         }
 
         .skill-tag:hover {
@@ -270,7 +283,7 @@
             transform: scale(1.05) translateY(-2px);
         }
 
-        /* Scroll Reveal Animation Classes */
+        /* Scroll Reveal Animation */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -282,7 +295,6 @@
             transform: translateY(0);
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 3rem 2rem;
@@ -295,6 +307,8 @@
 </head>
 <body>
 
+    <!-- Particle Network Container -->
+    <div id="particles-js"></div>
     <div class="bg-glow"></div>
 
     <nav>
@@ -306,11 +320,10 @@
         </div>
     </nav>
 
-    <!-- Changed id to "about" to fix the navigation bug -->
     <section id="about">
         <div class="hero-content">
             <div class="hero-intro">Hello, my name is</div>
-            <h1>Joey Siu.</h1>
+            <h1>Joey Weng-Dat Siu.</h1>
             <h2>I transform data into strategy.</h2>
             <p class="summary">
                 Data Analyst with a Bachelor of Science in Computer Science from UC Irvine. Specializing in database management, analytics, and building scalable systems that drive actionable insights.
@@ -352,30 +365,80 @@
     </section>
 
     <footer>
-        <p>Designed and built by Joey Siu © 2026</p>
+        <p>Designed and built by Joey Weng-Dat Siu © 2026</p>
     </footer>
 
-    <!-- Intersection Observer Script for Scroll Animations -->
+    <!-- Particles.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
     <script>
+        // Initialize Scroll Reveal
         document.addEventListener('DOMContentLoaded', () => {
             const reveals = document.querySelectorAll('.reveal');
-
             const revealOnScroll = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Stop observing once it has animated in
                         observer.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.1, // Trigger when 10% of the element is visible
+                threshold: 0.1,
                 rootMargin: "0px 0px -50px 0px"
             });
 
             reveals.forEach(reveal => {
                 revealOnScroll.observe(reveal);
             });
+        });
+
+        // Initialize Particles.js
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 60, /* Number of nodes */
+                    "density": { "enable": true, "value_area": 800 }
+                },
+                "color": { "value": "#1a8cff" }, /* Bright blue accent */
+                "shape": { "type": "circle" },
+                "opacity": {
+                    "value": 0.4,
+                    "random": false
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#1a8cff", /* Bright blue lines */
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5, /* Slow, smooth movement */
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "window", /* Tracks mouse across the whole screen */
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" }, /* Reaches out to mouse */
+                    "onclick": { "enable": true, "mode": "push" }, /* Adds particles on click */
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 180, "line_linked": { "opacity": 0.6 } },
+                    "push": { "particles_nb": 3 }
+                }
+            },
+            "retina_detect": true
         });
     </script>
 </body>
