@@ -14,7 +14,7 @@
             --text-muted: #9ba1a6;
             --accent-blue: #1a8cff;
             --glow-blue: 0 0 20px rgba(26, 140, 255, 0.4);
-            --alert-red: #ff3333; /* Added for the scanner alerts */
+            --alert-red: #ff3333;
         }
 
         * {
@@ -468,11 +468,11 @@
                 </a>
             </div>
 
-            <!-- Project 3: Kalshi Scanner -->
+            <!-- Project 3: Kalshi Volume Tracker -->
             <div class="card reveal" style="transition-delay: 0.5s;">
                 <div>
-                    <h3>Kalshi Volatility Scanner</h3>
-                    <p>An automated surveillance pipeline monitoring prediction markets. A Python script pings the Kalshi API, calculates moving averages, and flags probability swings greater than 15% to identify arbitrage opportunities.</p>
+                    <h3>Kalshi Top 10 Volume Tracker</h3>
+                    <p>An automated pipeline tracking prediction market liquidity. A Python script pings the Kalshi API, parses thousands of active markets, and surfaces the top 10 most heavily traded events in real-time.</p>
                     
                     <div class="project-tags">
                         <span class="project-tag-small">Python</span>
@@ -482,11 +482,11 @@
 
                     <div class="api-terminal" id="kalshi-scanner-ticker">
                         > Initializing Kalshi connection...<br>
-                        > Awaiting market data...
+                        > Sorting active markets by volume...
                     </div>
                 </div>
                 
-                <a href="https://jwsiu1.github.io/" class="project-link">
+                <a href="#" class="project-link">
                     View Script Repository <span>→</span>
                 </a>
             </div>
@@ -538,8 +538,8 @@
             fetchDatasetMetrics('y8y3-fqfu', 'lapd-nibrs-ticker', 800);
             fetchDatasetMetrics('xjgu-z4ju', 'lapd-cfs-ticker', 1200);
             
-            // Start the Kalshi Scanner simulation
-            simulateKalshiScanner();
+            // Start the Kalshi Top 10 Volume simulation
+            simulateKalshiVolumeTracker();
         });
 
         // Reusable Live API Fetch function (LAPD)
@@ -567,30 +567,36 @@
             }
         }
 
-        // Simulates the Kalshi Python Script output in the frontend
-        function simulateKalshiScanner() {
+        // Simulates the Kalshi Top 10 Volume Script output in the frontend
+        function simulateKalshiVolumeTracker() {
             const ticker = document.getElementById('kalshi-scanner-ticker');
-            const markets = ['Fed Rate Hike - Nov', 'Tech Stock ETF Close', 'Global Temp Anomaly', 'Presidential Election'];
+            
+            // A sample of high-volume markets for the simulation
+            const topMarkets = [
+                { name: 'Fed Interest Rate Decision', vol: 2450500 },
+                { name: 'US GDP Growth Q3', vol: 1850200 },
+                { name: 'S&P 500 Daily Close', vol: 950400 },
+                { name: 'Monthly Jobs Report', vol: 620100 },
+                { name: 'Tech ETF Weekly Close', vol: 410000 }
+            ];
             
             setTimeout(() => {
-                ticker.innerHTML = `> Connected to Kalshi API<br>> Scanning active markets...`;
+                ticker.innerHTML = `> Connected to Kalshi API<br>> Parsing thousands of active markets...`;
             }, 1600);
 
-            // Cycle through random markets every 4 seconds
+            // Cycle through updates every 4 seconds to simulate live ranking
             setInterval(() => {
-                const randomMarket = markets[Math.floor(Math.random() * markets.length)];
-                const swing = (Math.random() * 20 + 1).toFixed(1); // Random swing between 1% and 21%
-                const isVolatile = swing > 15;
+                const randomMarket = topMarkets[Math.floor(Math.random() * topMarkets.length)];
                 
-                let status = isVolatile 
-                    ? `<span class="alert">ALERT: ${swing}% SWING DETECTED</span>` 
-                    : `<span>Stable (${swing}% var)</span>`;
-
+                // Add a small randomized jump in volume to simulate live trading
+                const currentVol = randomMarket.vol + Math.floor(Math.random() * 8500); 
+                
                 ticker.innerHTML = `
                     > Target: <span>Kalshi Markets</span><br>
-                    > Analyzing: <span>${randomMarket}</span><br>
-                    > 1Hr Volume: <span>$${Math.floor(Math.random() * 25000 + 5000).toLocaleString()}</span><br>
-                    > Status: ${status}
+                    > Top Trending Market:<br>
+                    > <span>${randomMarket.name}</span><br>
+                    > Traded Volume: <span>${currentVol.toLocaleString()} contracts</span><br>
+                    > Status: <span>Live Ranking Active</span>
                 `;
             }, 4000);
         }
