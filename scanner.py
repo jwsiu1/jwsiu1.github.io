@@ -6,11 +6,11 @@ from datetime import datetime
 BASE_URL = "https://trading-api.kalshi.com/trade-api/v2"
 
 def get_top_volume_markets():
-    """Fetches active markets and returns the top 10 by trading volume."""
+    """Fetches active markets and returns the top 10 by notional dollar volume."""
     markets = []
     cursor = None
     
-    # Loop to handle pagination (fetching up to 5,000 active markets to ensure we catch the top ones)
+    # Loop to handle pagination (fetching up to 5,000 active markets)
     for _ in range(5):  
         params = {"status": "active", "limit": 1000}
         if cursor:
@@ -46,7 +46,7 @@ def get_top_volume_markets():
             'Rank': rank,
             'Market': market.get('ticker'),
             'Current Prob': f"{market.get('yes_ask', 0)}¢",
-            'Total Volume': f"{int(market.get('volume', 0)):,}"
+            'Total Volume': f"${int(market.get('volume', 0)):,}"
         })
         
     return pd.DataFrame(results)
