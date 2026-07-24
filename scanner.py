@@ -2,48 +2,61 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-# Kalshi API Base URL (Public endpoints)
+# Kalshi API Base URL
 BASE_URL = "https://trading-api.kalshi.com/trade-api/v2"
 
-def get_active_markets():
-    """Fetches all active prediction markets from Kalshi."""
-    response = requests.get(f"{BASE_URL}/markets", params={"status": "active", "limit": 100})
-    if response.status_code == 200:
-        return response.json().get('markets', [])
-    return []
-
-def scan_for_volatility(markets, threshold=15):
-    """Scans markets and flags probability swings greater than the threshold."""
-    volatile_markets = []
+def get_top_volume_markets():
+    """Fetches active markets and returns the top 10 by trading volume."""
+    markets = []
+    cursor = None
     
-    for market in markets:
-        ticker = market.get('ticker')
-        # Yes price represents market probability (e.g., 40 cents = 40%)
-        current_price = market.get('yes_ask', 0) 
-        previous_price = market.get('previous_yes_ask', current_price) # Fallback if historical isn't in this payload
-        
-        # Calculate percentage swing
-        if previous_price > 0:
-            swing = abs((current_price - previous_price) / previous_price) * 100
+    # Loop to handle pagination (fetching up to 5,000 active markets to ensure we catch the top ones)
+    for _ in range(5):  
+        params = {"status": "active", "limit": 1000}
+        if cursor:
+            params["cursor"] = cursor
             
-            if swing >= threshold:
-                volatile_markets.append({
-                    'Market': ticker,
-                    'Current Prob': f"{current_price}¢",
-                    'Swing': f"{swing:.1f}%",
-                    'Timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                })
-                
-    return pd.DataFrame(volatile_markets)
+        response = requests.get(f"{BASE_URL}/markets", params=params)
+        
+        if response.status_code == 200:
+            data = response.json()
+            markets.extend(data.get('markets', []))
+            cursor = data.get('cursor')
+            # Break early if there are no more pages
+            if not cursor:
+                break
+        else:
+            print(f"Error fetching data: {response.status_code}")
+            break
+            
+    # Sort all active markets by volume (descending)
+    sorted_markets = sorted(
+        markets, 
+        key=lambda x: int(x.get('volume', 0)), 
+        reverse=True
+    )
+    
+    # Slice the top 10
+    top_10 = sorted_markets[:10]
+    
+    # Format the data for output
+    results = []
+    for rank, market in enumerate(top_10, start=1):
+        results.append({
+            'Rank': rank,
+            'Market': market.get('ticker'),
+            'Current Prob': f"{market.get('yes_ask', 0)}¢",
+            'Total Volume': f"{int(market.get('volume', 0)):,}"
+        })
+        
+    return pd.DataFrame(results)
 
-# Execute Scanner
-print("Initiating Kalshi Volatility Scan...")
-markets = get_active_markets()
-alerts_df = scan_for_volatility(markets)
+# Execute the script
+print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Initiating Kalshi Volume Scan...")
+top_10_df = get_top_volume_markets()
 
-if not alerts_df.empty:
-    print(f"ALERT: Detected {len(alerts_df)} highly volatile markets.")
-    print(alerts_df.to_string(index=False))
-    # Next step: Export to SQL database or trigger an email alert here
+if not top_10_df.empty:
+    print("\n--- TOP 10 KALSHI MARKETS BY VOLUME ---")
+    print(top_10_df.to_string(index=False))
 else:
-    print("All markets stable. No arbitrage opportunities flagged.")
+    print("No active markets found.")
