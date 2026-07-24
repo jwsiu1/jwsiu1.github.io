@@ -486,8 +486,9 @@
                     </div>
                 </div>
                 
-                <a href="#" class="project-link">
-                    View Script Repository <span>→</span>
+                <!-- This link now updates dynamically via JavaScript -->
+                <a href="https://kalshi.com" target="_blank" class="project-link" id="kalshi-live-link">
+                    View Live Market on Kalshi <span>→</span>
                 </a>
             </div>
 
@@ -567,17 +568,18 @@
             }
         }
 
-        // Simulates the Kalshi Top 10 Volume Script output in the frontend
+        // Simulates the Kalshi Top 10 Volume Script output and dynamically updates the link
         function simulateKalshiVolumeTracker() {
             const ticker = document.getElementById('kalshi-scanner-ticker');
+            const liveLink = document.getElementById('kalshi-live-link');
             
-            // A sample of high-volume markets for the simulation
+            // Included exact Kalshi market base URLs
             const topMarkets = [
-                { name: 'Fed Interest Rate Decision', vol: 2450500 },
-                { name: 'US GDP Growth Q3', vol: 1850200 },
-                { name: 'S&P 500 Daily Close', vol: 950400 },
-                { name: 'Monthly Jobs Report', vol: 620100 },
-                { name: 'Tech ETF Weekly Close', vol: 410000 }
+                { name: 'Fed Interest Rate Decision', vol: 2450500, url: 'https://kalshi.com/markets/fed' },
+                { name: 'US GDP Growth Q3', vol: 1850200, url: 'https://kalshi.com/markets/gdp' },
+                { name: 'S&P 500 Daily Close', vol: 950400, url: 'https://kalshi.com/markets/inxd' },
+                { name: 'Monthly Jobs Report', vol: 620100, url: 'https://kalshi.com/markets/nfp' },
+                { name: 'Tech ETF Weekly Close', vol: 410000, url: 'https://kalshi.com/markets/ndxd' }
             ];
             
             setTimeout(() => {
@@ -591,6 +593,7 @@
                 // Add a small randomized jump in volume to simulate live trading
                 const currentVol = randomMarket.vol + Math.floor(Math.random() * 8500); 
                 
+                // Update terminal UI
                 ticker.innerHTML = `
                     > Target: <span>Kalshi Markets</span><br>
                     > Top Trending Market:<br>
@@ -598,6 +601,12 @@
                     > Traded Volume: <span>${currentVol.toLocaleString()} contracts</span><br>
                     > Status: <span>Live Ranking Active</span>
                 `;
+
+                // Update the href attribute so clicking it takes the user to the exact market shown
+                if(liveLink) {
+                    liveLink.href = randomMarket.url;
+                }
+
             }, 4000);
         }
 
