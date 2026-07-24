@@ -1,0 +1,29 @@
+name: Kalshi Volatility Scanner
+
+on:
+  schedule:
+    # Runs at minute 0 past every hour
+    - cron: '0 * * * *' 
+  workflow_dispatch: # Creates a button in GitHub so you can run it manually
+
+jobs:
+  run-scanner:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pandas
+
+      - name: Run Scanner Script
+        run: python scanner.py 
+        # Make sure 'scanner.py' matches the exact name of your Python file
