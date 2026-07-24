@@ -1,16 +1,15 @@
 import requests
 import pandas as pd
+import json
 from datetime import datetime
 
-# Kalshi API Base URL
 BASE_URL = "https://trading-api.kalshi.com/trade-api/v2"
 
-def get_top_volume_markets():
-    """Fetches active markets and returns the top 10 by notional dollar volume."""
+def get_top_events_by_volume():
     markets = []
     cursor = None
     
-    # Loop to handle pagination (fetching up to 5,000 active markets)
+    # Pagination: Pull active markets in batches
     for _ in range(5):  
         params = {"status": "active", "limit": 1000}
         if cursor:
@@ -22,41 +21,50 @@ def get_top_volume_markets():
             data = response.json()
             markets.extend(data.get('markets', []))
             cursor = data.get('cursor')
-            # Break early if there are no more pages
             if not cursor:
                 break
         else:
-            print(f"Error fetching data: {response.status_code}")
             break
             
-    # Sort all active markets by volume (descending)
-    sorted_markets = sorted(
-        markets, 
-        key=lambda x: int(x.get('volume', 0)), 
-        reverse=True
-    )
+    if not markets:
+        return []
+
+    # Convert to DataFrame
+    df = pd.DataFrame(markets)
     
-    # Slice the top 10
-    top_10 = sorted_markets[:10]
+    # Clean volume data
+    df['volume'] = pd.to_numeric(df['volume'], errors='coerce').fillna(0)
     
-    # Format the data for output
-    results = []
-    for rank, market in enumerate(top_10, start=1):
-        results.append({
-            'Rank': rank,
-            'Market': market.get('ticker'),
-            'Current Prob': f"{market.get('yes_ask', 0)}¢",
-            'Total Volume': f"${int(market.get('volume', 0)):,}"
+    # Group by event_ticker to combine all sub-markets (e.g., LeBron's 30 team options)
+    grouped = df.groupby('event_ticker').agg({
+        'volume': 'sum',
+        'title': 'first'  # Event title
+    }).reset_index()
+    
+    # Sort by total volume descending
+    top_10_df = grouped.sort_values(by='volume', ascending=False).head(10)
+    
+    # Format output array
+    top_10_data = []
+    for rank, row in enumerate(top_10_df.itertuples(), start=1):
+        event_ticker = str(row.event_ticker).lower()
+        title = str(row.title) if pd.notna(row.title) else row.event_ticker
+        
+        top_10_data.append({
+            "rank": rank,
+            "name": title,
+            "vol": int(row.volume),
+            "url": f"https://kalshi.com/markets/{event_ticker}"
         })
         
-    return pd.DataFrame(results)
+    return top_10_data
 
-# Execute the script
-print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Initiating Kalshi Volume Scan...")
-top_10_df = get_top_volume_markets()
-
-if not top_10_df.empty:
-    print("\n--- TOP 10 KALSHI MARKETS BY VOLUME ---")
-    print(top_10_df.to_string(index=False))
-else:
-    print("No active markets found.")
+if __name__ == "__main__":
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Running Kalshi volume pipeline...")
+    data = get_top_events_by_volume()
+    
+    # Export to JSON file for index.html to fetch
+    with open("kalshi_top10.json", "w") as f:
+        json.dump(data, f, indent=2)
+        
+    print(f"Successfully updated kalshi_top10.json with {len(data)} events.")
